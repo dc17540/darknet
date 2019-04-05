@@ -1,0 +1,10 @@
+/home/dr_dunstan/makeItHappen/attempt1/data/vid1/144.jpg
+/home/dr_dunstan/makeItHappen/attempt1/data/vid1/114.jpg
+/home/dr_dunstan/makeItHappen/attempt1/data/vid1/270.jpg
+/home/dr_dunstan/makeItHappen/attempt1/data/vid1/86.jpg
+/home/dr_dunstan/makeItHappen/attempt1/data/vid1/351.jpg
+/home/dr_dunstan/makeItHappen/attempt1/data/vid1/9.jpg
+/home/dr_dunstan/makeItHappen/attempt1/data/vid1/46.jpg
+/home/dr_dunstan/makeItHappen/attempt1/data/vid1/84.jpg
+/home/dr_dunstan/makeItHappen/attempt1/data/vid1/232.jpg
+/home/dr_dunstan/makeItHappen/attempt1/data/vid1/51.jpg
