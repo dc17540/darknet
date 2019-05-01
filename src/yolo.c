@@ -6,7 +6,7 @@
 #include "box.h"
 #include "demo.h"
 
-#include <fstream>
+
 
 #ifdef OPENCV
 #include <opencv2/highgui/highgui_c.h>
