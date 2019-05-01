@@ -344,7 +344,7 @@ void draw_detections_v3(image im, detection *dets, int num, float thresh, char *
             printf("\n");
         int j;
         for (j = 0; j < classes; ++j) {
-            if (selected_detections[i].det.prob[j] > thresh && j != best_class) {
+            if (selected_detections[i].det.prob[j] > thresh && j == best_class) {
                 printf("%s: %.0f%%\n", names[j], selected_detections[i].det.prob[j] * 100);
             }
         }
@@ -352,7 +352,7 @@ void draw_detections_v3(image im, detection *dets, int num, float thresh, char *
 
     // image output
     qsort(selected_detections, selected_detections_num, sizeof(*selected_detections), compare_by_probs);
-    for (i = 0; i < selected_detections_num; ++i) {
+    for (i = 0; i < 1; ++i) {
             int width = im.h * .006;
             if (width < 1)
                 width = 1;

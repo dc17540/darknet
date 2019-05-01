@@ -6,6 +6,8 @@
 #include "box.h"
 #include "demo.h"
 
+#include <fstream>
+
 #ifdef OPENCV
 #include <opencv2/highgui/highgui_c.h>
 #include <opencv2/imgproc/imgproc_c.h>
@@ -29,6 +31,7 @@ void train_yolo(char *cfgfile, char *weightfile)
     if(weightfile){
         load_weights(&net, weightfile);
     }
+   
     printf("Learning Rate: %g, Momentum: %g, Decay: %g\n", net.learning_rate, net.momentum, net.decay);
     int imgs = net.batch*net.subdivisions;
     int i = *net.seen/imgs;
