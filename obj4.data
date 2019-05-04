@@ -1,5 +1,5 @@
 classes= 6
 train  = train4.txt
-valid  = test4.txt
+valid  = train4.txt
 names = obj6.names
 backup = backup/
