@@ -3,6 +3,53 @@ import networkx
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
+
+
+def intersect(lst1, lst2):
+    for  i in range(0,len(lst1)):
+        lst1[i] = tuple(lst1[i])
+
+    for i in range(0,len(lst2)):
+        lst2[i] = tuple(lst2[i])
+    
+    lst1 = set(lst1)
+    lst2 = set(lst2)
+    
+    lst3 = lst1 & lst2
+    return lst3
+
+def newGraph(aCover):
+    nodeDict = {}
+    finEdgeList = []
+    counter = 1
+    for element in aCover:
+        if(len(element) > 2):
+            nodeDict[counter] = element[2:]
+            counter += 1
+    for key in nodeDict.keys():
+        for key2 in nodeDict.keys():
+            if(nodeDict[key2] != nodeDict[key] and key != key2):
+                if(len(intersect(nodeDict[key],nodeDict[key2])) != 0):
+                    finEdgeList.append((key,key2))
+    G=nx.Graph()
+    G.add_nodes_from(nodeDict.keys())
+
+
+
+
+    for element in finEdgeList:
+        element = list(element)
+        element.append({'weight':1})
+        element = tuple(element)
+        edgeListFin.append(element)
+
+
+    G.add_edges_from(finEdgeList)
+    return G
+
+
+
+
 G=nx.Graph()
 graphList = []
 for i in range(1,17):
@@ -35,44 +82,58 @@ for element in finList:
     #np.average(np.asarray(element))
     finList3.append(np.average(np.asarray(element)))
 
-print(finList3)
-#for key in theMetric.keys():
-#    print(theMetric[key])
 
-nx.draw(G)
-plt.draw()
+
+finList3 = np.asarray(finList3)
+
+finList3 = (1/np.max(finList3))*finList3
+
+#finList3 = finList3[:, np.array((0,1))]
+
+
+
+nodeList = list(G.nodes)
+#print(nodeList)
+counter = 0
+finDict = {}
+for element in finList3:
+   
+    if(element not in finDict.keys()):
+        finDict[element] = [nodeList[counter]]
+    else:
+        finDict[element].append(nodeList[counter])
+    counter += 1
+
+
+theCover = []
+theN = 4
+theE = .25
+for i in range(0,theN):
+    val1 =  (i)/(theN)
+    val2 = (i+1)/(theN)
+    theCover.append([val1,val2])
+    
+
+for i in range(0,len(theCover)):
+    for j in range(0,len(theCover[i])):
+        if(theCover[i][j] != 0 and theCover[i][j] != 1):
+            if(j == 0):
+                theCover[i][j] = theCover[i][j] - theE
+            else:
+                theCover[i][j] = theCover[i][j] + theE
+
+#calcuate subgraphs in cover
+
+for i in range(0,len(theCover)):
+    for key in finDict.keys():
+        if(key >= theCover[i][0] and key <= theCover[i][1]):
+            theCover[i].append(finDict[key])
+
+#print("Final Cover")
+print(theCover)
+newGraph = newGraph(theCover)
+plt.figure(1)
+nx.draw(newGraph)
+plt.figure(2)
+nx.draw_networkx(G)
 plt.show()
-for i in range(0,len(finList3)):
-    finList3[i] = [finList[i],0]
-
-import kmapper as km
-
-# Some sample data
-
-
-# Initialize
-mapper = km.KeplerMapper(verbose=1)
-
-from sklearn import datasets
-#data, labels = datasets.make_circles(n_samples=5000, noise=0.03, factor=0.3)
-#print(data)
-#print(type(data))
-
-
-# Fit to and transform the data
-#projected_data = mapper.fit_transform((np.array(finList3)).reshape(len(finList3),2), projection=[0,1]) # X-Y axis
-
-data,lables = datasets.make_circles(n_samples=500, noise=0.03, factor=0.3)
-
-projected_data = mapper.fit_transform(data,projection=[0,1])
-#datasets.make_circles(n_samples=500, noise=0.03, factor=0.3)
-
-# Create dictionary called 'graph' with nodes, edges and meta-information
-#graph = mapper.map(projected_data, (np.array(finList3)).reshape(len(finList3),2), cover=km.Cover(n_cubes=10))
-
-graph = mapper.map(projected_data,data, cover=km.Cover(n_cubes=10))
-
-# Visualize it
-mapper.visualize(graph, path_html="make_circles_keplermapper_output.html",
-                 title="make_circles(n_samples=5000, noise=0.03, factor=0.3)")
-
